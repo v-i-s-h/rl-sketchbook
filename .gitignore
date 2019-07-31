@@ -1,0 +1,6 @@
+*.log
+results
+models
+zoo
+.ipynb_checkpoints
+logs
