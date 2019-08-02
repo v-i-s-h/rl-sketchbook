@@ -10,8 +10,6 @@ from stable_baselines.bench import Monitor
 # To handle command line options
 parser = argparse.ArgumentParser()
 
-parser.add_argument("--env",        help="OpenAI Gym environment name", 
-                                        type=str, default="CartPole-v1")
 parser.add_argument("--episodes",   help="Maximum episodes to run", 
                                         type=int, default=200)
 parser.add_argument("--rounds",     help="Number of rounds", 
@@ -49,7 +47,7 @@ class MaxEpisodeCb(object):
 if __name__ == "__main__":
 
     # Print experiment configuration
-    print("Environment    :", args.env)
+    print("Environment    : CartPole-v1")
     print("No.of episodes :", args.episodes)
     print("No.of rounds   :", args.rounds)
     print("Log directory  :", args.logdir)
@@ -62,13 +60,13 @@ if __name__ == "__main__":
         log_file_prefix = "{}/{:03d}".format(args.logdir,i)
         
         # Make environment
-        env = gym.make(args.env)
+        env = gym.make("CartPole-v1")
         env = Monitor(env, log_file_prefix, allow_early_resets=True)
 
         maxep_cb = MaxEpisodeCb(max_episodes=args.episodes)
 
         # Create model
-        model = DQN(MlpPolicy, env, verbose=0)
+        model = DQN(LnMlpPolicy, env, verbose=0)
 
         # Train model
         model.learn(total_timesteps=100000, callback=maxep_cb.callback)
